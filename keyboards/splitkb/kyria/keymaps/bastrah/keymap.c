@@ -32,6 +32,16 @@ enum custom_keycodes {
     vscodeFormat
 };
 
+enum combos {
+  C_BSPC
+};
+
+const uint16_t PROGMEM c_combo[] = {KC_H, KC_COMM, COMBO_END};
+
+combo_t key_combos[] = {
+  [C_BSPC] = COMBO(c_combo, KC_BSPC)
+};
+
 
 // Aliases for readability
 // Left-hand home row mods
@@ -49,6 +59,7 @@ enum custom_keycodes {
 // Auto Control
 #define AC_C LT(10,KC_C) //Unused layer is used as placeholder and replaced by CTRL in "process_record_user" function
 #define AC_V LT(10,KC_V)
+
 
 //Default is tap preferred behavior, for shift it's hold preferred behavior
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
@@ -97,7 +108,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -448,12 +458,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef ENCODER_ENABLE
     bool encoder_update_user(uint8_t index, bool clockwise) {
-        // Volume control
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
+        if (index == 0) {
+            if (clockwise) {
+                tap_code(KC_WH_R);
+            } else {
+                tap_code(KC_WH_L);
+            }
+            return false;
+        } else if (index == 1) {
+            // Volume control
+            if (clockwise) {
+                tap_code(KC_VOLU);
+            } else {
+                tap_code(KC_VOLD);
+            }
+            return false;
         }
-        return false;
+        return true;
+        
     }
 #endif

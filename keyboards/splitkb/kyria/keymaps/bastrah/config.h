@@ -53,3 +53,5 @@
 #ifdef ENCODER_ENABLE
 #   define ENCODER_RESOLUTION 2
 #endif
+
+#define COMBO_COUNT 1
