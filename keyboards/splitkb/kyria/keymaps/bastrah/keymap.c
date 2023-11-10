@@ -29,7 +29,8 @@ enum layers {
 enum custom_keycodes {
     winLeft,
     winRight,
-    vscodeFormat
+    vscodeFormat,
+    teamsMute
 };
 
 enum combos {
@@ -105,6 +106,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_LALT) SS_TAP(X_F) SS_UP(X_LSFT) SS_UP(X_LALT));
                 return false;
             }
+        case teamsMute:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_LCTL) SS_TAP(X_M) SS_UP(X_LSFT) SS_UP(X_LCTL));
+                return false;
+            }
     }
     return true;
 }
@@ -128,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_base] = LAYOUT(
         KC_F5, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                   KC_J,    KC_L,    KC_U,    KC_Z,    LSFT(KC_NONUS_HASH), KC_F10,
         KC_F8, HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_G,                                                   KC_M,    HOME_N,  HOME_E,  SON_I,   HOME_O, KC_F11,
-        KC_F9, KC_Y,    KC_X,    AC_C,    KC_D,    AC_V, KC_F9, LCTL(KC_P6),               KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
+        KC_F9, KC_Y,    KC_X,    AC_C,    KC_D,    AC_V, KC_F9, teamsMute,                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
                 XXXXXXX, winLeft, LT(_nav,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_sym,KC_ENT),  LSFT_T(KC_BSPC), winRight, XXXXXXX
     ),
 
@@ -148,8 +154,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
     [_nav] = LAYOUT(
-      XXXXXXX, XXXXXXX, LCTL(KC_P4), LCTL(KC_P5), LCTL(KC_P6), XXXXXXX,                                     XXXXXXX, KC_INS, KC_DEL, KC_PGUP, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, KC_P8, KC_P9, KC_VOLU, XXXXXXX,                                                     KC_PSCR, KC_LEFT, KC_UP, KC_RGHT, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, teamsMute, XXXXXXX,                                     XXXXXXX, KC_INS, KC_DEL, KC_PGUP, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, XXXXXXX,                                                     KC_PSCR, KC_LEFT, KC_UP, KC_RGHT, XXXXXXX, XXXXXXX,
       XXXXXXX, XXXXXXX, vscodeFormat, LCTL(KC_C), KC_VOLD, LCTL(KC_V), XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_DOWN, KC_PGDN, KC_END, XXXXXXX,
                                  XXXXXXX, XXXXXXX, KC_SPC, KC_TAB, XXXXXXX,                       XXXXXXX, KC_ESC, KC_TRNS, XXXXXXX, XXXXXXX
     ),
