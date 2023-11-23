@@ -34,13 +34,16 @@ enum custom_keycodes {
 };
 
 enum combos {
-  C_BSPC
+  C_BSPC,
+  QW_ESC
 };
 
 const uint16_t PROGMEM c_combo[] = {KC_H, KC_COMM, COMBO_END};
+const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
 
 combo_t key_combos[] = {
-  [C_BSPC] = COMBO(c_combo, KC_BSPC)
+  [C_BSPC] = COMBO(c_combo, KC_BSPC),
+  [QW_ESC] = COMBO(qw_combo, KC_ESC)
 };
 
 
@@ -157,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, teamsMute, XXXXXXX,                                     XXXXXXX, KC_INS, KC_DEL, KC_PGUP, XXXXXXX, XXXXXXX,
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, XXXXXXX,                                                     KC_PSCR, KC_LEFT, KC_UP, KC_RGHT, XXXXXXX, XXXXXXX,
       XXXXXXX, XXXXXXX, vscodeFormat, LCTL(KC_C), KC_VOLD, LCTL(KC_V), XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_DOWN, KC_PGDN, KC_END, XXXXXXX,
-                                 XXXXXXX, XXXXXXX, KC_SPC, KC_TAB, XXXXXXX,                       XXXXXXX, KC_ESC, KC_TRNS, XXXXXXX, XXXXXXX
+                                 XXXXXXX, XXXXXXX, KC_SPC, KC_TAB, XXXXXXX,                       XXXXXXX, XXXXXXX, KC_TRNS, XXXXXXX, XXXXXXX
     ),
 
 /*
@@ -179,7 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX, RALT(KC_E), RALT(KC_7), RALT(KC_0), LSFT(KC_8), LSFT(KC_9),                                                 RALT(KC_8), RALT(KC_9), LSFT(KC_RBRC), RALT(KC_RBRC), XXXXXXX, XXXXXXX,
         XXXXXXX, KC_GRAVE, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), LSFT(KC_NUBS), XXXXXXX,
         XXXXXXX, LSFT(KC_COMMA), LSFT(KC_5), RALT(KC_NUBS), LSFT(KC_SLASH), RALT(KC_Q), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,LSFT(KC_1), LSFT(KC_EQUAL), KC_NUHS, LSFT(KC_6), KC_NUBS, XXXXXXX,
-                                                    XXXXXXX, XXXXXXX, KC_ESC, RALT(KC_MINUS), XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
+                                                    XXXXXXX, XXXXXXX, XXXXXXX, RALT(KC_MINUS), XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
     ),
 
 /*
@@ -221,7 +224,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                                     XXXXXXX, XXXXXXX, KC_LBRC, XXXXXXX, XXXXXXX, XXXXXXX,
        XXXXXXX, KC_QUOTE, XXXXXXX, KC_MINUS, XXXXXXX, XXXXXXX,                                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_SCLN, XXXXXXX,
        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                  XXXXXXX, XXXXXXX, KC_SPC, KC_TAB, XXXXXXX, XXXXXXX, KC_ESC, KC_TRNS, XXXXXXX, XXXXXXX
+                                  XXXXXXX, XXXXXXX, KC_SPC, KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, KC_TRNS, XXXXXXX, XXXXXXX
      ),
 
 /*
@@ -466,9 +469,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     bool encoder_update_user(uint8_t index, bool clockwise) {
         if (index == 0) {
             if (clockwise) {
-                tap_code(KC_WH_R);
+                tap_code(KC_VOLU);
             } else {
-                tap_code(KC_WH_L);
+                tap_code(KC_VOLD);
             }
             return false;
         } else if (index == 1) {
