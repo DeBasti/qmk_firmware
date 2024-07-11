@@ -36,12 +36,7 @@ enum custom_keycodes {
     winLeft,
     winRight,
     vscodeFormat,
-    teamsMute,
-    macLeft,
-    macRight,
-    backslash,
-    arr_left,
-    arr_right
+    teamsMute
 };
 
 enum combos {
@@ -110,16 +105,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;             // Return true for normal processing of tap keycode
-        case winLeft:
-            if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LGUI) SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LGUI) SS_UP(X_LCTL));
-                return false;
-            }
-        case winRight:
-            if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LGUI) SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LGUI) SS_UP(X_LCTL));
-                return false;
-            }
         case MAC_C:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(G(KC_C)); // Intercept hold function to send GUI-C
@@ -132,14 +117,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;             // Return true for normal processing of tap keycode
-        case macLeft:
+        case winLeft:
             if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LCTL));
+                SEND_STRING(SS_DOWN(X_LGUI) SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LGUI) SS_UP(X_LCTL));
+                return false;
+            }
+        case winRight:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LGUI) SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LGUI) SS_UP(X_LCTL));
+                return false;
+            }
+        /*case macLeft:
+            if (record->event.pressed) {
+                //SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LCTL));
+                tap_code16(C(KC_LEFT));
                 return false;
             }
         case macRight:
             if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LCTL));
+                //SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LCTL));
+                tap_code16(C(KC_RIGHT));
                 return false;
             }
         case backslash:
@@ -156,7 +153,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_RALT) SS_TAP(X_N) SS_UP(X_LSFT) SS_UP(X_RALT));
                 return false;
-            }
+            }*/
         case vscodeFormat:
             if (record->event.pressed) {
                 SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_LALT) SS_TAP(X_F) SS_UP(X_LSFT) SS_UP(X_LALT));
@@ -211,8 +208,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_basemac] = LAYOUT(
         KC_F5, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                   KC_J,    KC_L,    KC_U,    KC_Z,    LSFT(KC_NONUS_HASH), KC_F10,
         KC_F8, HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_G,                                                   KC_M,    HOME_N,  HOME_E,  SON_I,   HOME_O, KC_F11,
-        KC_F9, KC_Y,    KC_X,    AC_C,    KC_D,    AC_V, KC_F9, teamsMute,                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
-                XXXXXXX, macLeft, LT(_nav,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_symmac,KC_ENT),  LSFT_T(KC_BSPC), macRight, XXXXXXX
+        KC_F9, KC_Y,    KC_X,    MAC_C,    KC_D,   MAC_V, KC_F9, teamsMute,                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
+                XXXXXXX, LCTL(KC_LEFT), LT(_nav,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_symmac,KC_ENT),  LSFT_T(KC_BSPC), LCTL(KC_RIGHT), XXXXXXX
     ),
 
 /*
@@ -229,12 +226,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-//Perhaps todo: ',"
     [_symmac] = LAYOUT(
         XXXXXXX, RALT(KC_E), RALT(KC_8), RALT(KC_9), LSFT(KC_8), LSFT(KC_9),                                                 RALT(KC_5), RALT(KC_6), RALT(KC_N), RALT(KC_RBRC), XXXXXXX, XXXXXXX,
-        XXXXXXX, KC_GRAVE, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), arr_right, XXXXXXX,
-        XXXXXXX, LSFT(KC_COMMA), LSFT(KC_5), RALT(KC_7), LSFT(KC_SLASH), RALT(KC_L), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,LSFT(KC_1), LSFT(KC_EQUAL), KC_NUHS, LSFT(KC_6), arr_left, XXXXXXX,
-                                                    XXXXXXX, XXXXXXX, XXXXXXX, backslash, XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
+        XXXXXXX, KC_GRAVE, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), RALT(LSFT(KC_N)), XXXXXXX,
+        XXXXXXX, LSFT(KC_COMMA), LSFT(KC_5), RALT(KC_7), LSFT(KC_SLASH), RALT(KC_L), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,LSFT(KC_1), LSFT(KC_EQUAL), KC_NUHS, LSFT(KC_6), RALT(LSFT(KC_B)), XXXXXXX,
+                                                    XXXXXXX, XXXXXXX, XXXXXXX, RALT(LSFT(KC_7)), XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
     ),
 
 
