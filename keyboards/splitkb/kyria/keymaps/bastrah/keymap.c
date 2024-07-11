@@ -215,7 +215,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_basemac] = LAYOUT(
         KC_F5, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                   KC_J,    KC_L,    KC_U,    KC_Z,    LSFT(KC_NONUS_HASH), KC_F10,
         KC_F8, MAC_A,   HOME_R,  MAC_S,   HOME_T,  KC_G,                                                   KC_M,    HOME_N,  MAC_E,   SON_I,   MAC_O, KC_F11,
-        KC_F9, KC_Y,    KC_X,    MAC_C,    KC_D,   MAC_V, KC_F9, teamsMute,                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
+        KC_F9, KC_Y,    KC_X,    MAC_C,    KC_D,   MAC_V, KC_F9, LGUI(LSFT(KC_M)),                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
                 XXXXXXX, LCTL(KC_LEFT), LT(_navmac,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_symmac,KC_ENT),  LSFT_T(KC_BSPC), LCTL(KC_RIGHT), XXXXXXX
     ),
 
