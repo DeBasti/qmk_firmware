@@ -13,37 +13,51 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+// IMPORTANT: PRESS J+L together to switch to MacOS Base Layer
+// IMPORTANT: DISCONNECT keyboard and re-connect to be back to the Windows/Linux Base Layer
+
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 char wpm_str[10];
 
 enum layers {
     _base = 0,
+    _basemac = 1,
+    _symmac = 2,
     _nav,
     _sym,
     _num,
     _son,
-    _tri
+    _tri    
 };
 
 enum custom_keycodes {
     winLeft,
     winRight,
     vscodeFormat,
-    teamsMute
+    teamsMute,
+    macLeft,
+    macRight,
+    backslash,
+    arr_left,
+    arr_right
 };
 
 enum combos {
   C_BSPC,
-  QW_ESC
+  QW_ESC,
+  JL_MAC
 };
 
 const uint16_t PROGMEM c_combo[] = {KC_H, KC_COMM, COMBO_END};
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
+const uint16_t PROGMEM jl_combo[] = {KC_J, KC_L, COMBO_END};
 
 combo_t key_combos[] = {
   [C_BSPC] = COMBO(c_combo, KC_BSPC),
-  [QW_ESC] = COMBO(qw_combo, KC_ESC)
+  [QW_ESC] = COMBO(qw_combo, KC_ESC),
+  [JL_MAC] = COMBO(jl_combo, DF(1))
 };
 
 
@@ -63,6 +77,8 @@ combo_t key_combos[] = {
 // Auto Control
 #define AC_C LT(10,KC_C) //Unused layer is used as placeholder and replaced by CTRL in "process_record_user" function
 #define AC_V LT(10,KC_V)
+#define MAC_C LT(11,KC_C) //Unused layer is used as placeholder and replaced by GUI in "process_record_user" function
+#define MAC_V LT(11,KC_V)
 
 
 //Default is tap preferred behavior, for shift it's hold preferred behavior
@@ -104,6 +120,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_DOWN(X_LGUI) SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LGUI) SS_UP(X_LCTL));
                 return false;
             }
+        case MAC_C:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(G(KC_C)); // Intercept hold function to send GUI-C
+                return false;
+            }
+            return true;             // Return true for normal processing of tap keycode
+        case MAC_V:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(G(KC_V)); // Intercept hold function to send GUI-V
+                return false;
+            }
+            return true;             // Return true for normal processing of tap keycode
+        case macLeft:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_LEFT) SS_UP(X_LCTL));
+                return false;
+            }
+        case macRight:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LCTL) SS_TAP(X_RIGHT) SS_UP(X_LCTL));
+                return false;
+            }
+        case backslash:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_RALT) SS_DOWN(X_LSFT) SS_TAP(X_7) SS_UP(X_RALT) SS_UP(X_LSFT));
+                return false;
+            }
+        case arr_left:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_RALT) SS_DOWN(X_LSFT) SS_TAP(X_B) SS_UP(X_RALT) SS_UP(X_LSFT));
+                return false;
+            }
+        case arr_right:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_RALT) SS_TAP(X_N) SS_UP(X_LSFT) SS_UP(X_RALT));
+                return false;
+            }
         case vscodeFormat:
             if (record->event.pressed) {
                 SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_LALT) SS_TAP(X_F) SS_UP(X_LSFT) SS_UP(X_LALT));
@@ -140,6 +193,50 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_F9, KC_Y,    KC_X,    AC_C,    KC_D,    AC_V, KC_F9, teamsMute,                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
                 XXXXXXX, winLeft, LT(_nav,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_sym,KC_ENT),  LSFT_T(KC_BSPC), winRight, XXXXXXX
     ),
+
+   /*
+ * Base Layer MAC: QWERTY
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |   Q  |   W  |   F  |   P  |   B  |                              |   J  |   L  |   U  |   Y  |   '  |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |   A  |   R  |   S  |   T  |   G  |                              |   M  |   N  |   E  |   I  |   O  |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |   Z  |   X  |   C  |   D  |   V  |      |      |  |      |      |   K  |   H  |   ,  |   .  |   ?  |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      | NAV/| NUM  |      |  |      |SYMMAC| SHFT |      |      |
+ *                        |      |      | SPC | TAB  |      |  |      | ENT  | BSPC |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_basemac] = LAYOUT(
+        KC_F5, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                   KC_J,    KC_L,    KC_U,    KC_Z,    LSFT(KC_NONUS_HASH), KC_F10,
+        KC_F8, HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_G,                                                   KC_M,    HOME_N,  HOME_E,  SON_I,   HOME_O, KC_F11,
+        KC_F9, KC_Y,    KC_X,    AC_C,    KC_D,    AC_V, KC_F9, teamsMute,                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
+                XXXXXXX, macLeft, LT(_nav,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_symmac,KC_ENT),  LSFT_T(KC_BSPC), macRight, XXXXXXX
+    ),
+
+/*
+ * Sym Layer MAC: Symbols
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |  €   |  {   |  }   |  (   |  )   |                              |   [  |  ]   |  *   |  ~   |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |  ^   |  +   |  =   |  -   |  $   |                              |   '  |  "   |  /   |  :   |  >   |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |   ;  |  %   |  |   |  _   |  @   |      |      |  |      |      |   !  |  `   |  #   |  &   |  <   |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |  ESC |   \  |      |  |      | ENT  | SHFT |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+//Perhaps todo: ',"
+    [_symmac] = LAYOUT(
+        XXXXXXX, RALT(KC_E), RALT(KC_8), RALT(KC_9), LSFT(KC_8), LSFT(KC_9),                                                 RALT(KC_5), RALT(KC_6), RALT(KC_N), RALT(KC_RBRC), XXXXXXX, XXXXXXX,
+        XXXXXXX, KC_GRAVE, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), arr_right, XXXXXXX,
+        XXXXXXX, LSFT(KC_COMMA), LSFT(KC_5), RALT(KC_7), LSFT(KC_SLASH), RALT(KC_L), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,LSFT(KC_1), LSFT(KC_EQUAL), KC_NUHS, LSFT(KC_6), arr_left, XXXXXXX,
+                                                    XXXXXXX, XXXXXXX, XXXXXXX, backslash, XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
+    ),
+
 
 /*
  * Nav Layer: Navigation
@@ -248,6 +345,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  XXXXXXX, XXXXXXX, XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
     ),
 
+ 
 // /*
 //  * Layer template
 //  *
