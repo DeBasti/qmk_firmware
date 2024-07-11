@@ -25,6 +25,7 @@ enum layers {
     _base = 0,
     _basemac = 1,
     _symmac = 2,
+    _navmac = 3,
     _nav,
     _sym,
     _num,
@@ -68,6 +69,12 @@ combo_t key_combos[] = {
 #define HOME_E RCTL_T(KC_E)
 #define SON_I  LT(_son,KC_I)
 #define HOME_O RGUI_T(KC_O)
+
+// Aliases for MAC
+#define MAC_A LCTL_T(KC_A)
+#define MAC_S LGUI_T(KC_S)
+#define MAC_E RGUI_T(KC_E)
+#define MAC_O RCTL_T(KC_O)
 
 // Auto Control
 #define AC_C LT(10,KC_C) //Unused layer is used as placeholder and replaced by CTRL in "process_record_user" function
@@ -207,9 +214,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
     [_basemac] = LAYOUT(
         KC_F5, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                                                   KC_J,    KC_L,    KC_U,    KC_Z,    LSFT(KC_NONUS_HASH), KC_F10,
-        KC_F8, HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_G,                                                   KC_M,    HOME_N,  HOME_E,  SON_I,   HOME_O, KC_F11,
+        KC_F8, MAC_A,   HOME_R,  MAC_S,   HOME_T,  KC_G,                                                   KC_M,    HOME_N,  MAC_E,   SON_I,   MAC_O, KC_F11,
         KC_F9, KC_Y,    KC_X,    MAC_C,    KC_D,   MAC_V, KC_F9, teamsMute,                 KC_F10, KC_F11, KC_K,    KC_H,    KC_COMM, KC_DOT,  LSFT(KC_MINUS), XXXXXXX,
-                XXXXXXX, LCTL(KC_LEFT), LT(_nav,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_symmac,KC_ENT),  LSFT_T(KC_BSPC), LCTL(KC_RIGHT), XXXXXXX
+                XXXXXXX, LCTL(KC_LEFT), LT(_navmac,KC_SPC), LT(_num,KC_TAB), KC_F5,                      KC_F8, LT(_symmac,KC_ENT),  LSFT_T(KC_BSPC), LCTL(KC_RIGHT), XXXXXXX
     ),
 
 /*
@@ -233,6 +240,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                     XXXXXXX, XXXXXXX, XXXXXXX, RALT(LSFT(KC_7)), XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
     ),
 
+/*
+ * Nav Layer: Navigation
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |      |      |      |      |                              |      | Ins  | Del  | PGUP |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |                              | PSCR |  ←   |   ↑  |   →  |      |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |      |  |      |      |      | Home |   ↓  | PGDN | End  |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      | SPC  | TAB  |      |  |      | ESC  | TRNS |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+
+    [_navmac] = LAYOUT(
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LGUI(LSFT(KC_M)), XXXXXXX,                                     XXXXXXX, KC_INS, KC_DEL, KC_PGUP, XXXXXXX, XXXXXXX,
+      XXXXXXX, LGUI(KC_A), XXXXXXX, LGUI(KC_S), KC_VOLU, XXXXXXX,                                                     KC_PSCR, KC_LEFT, KC_UP, KC_RGHT, XXXXXXX, XXXXXXX,
+      XXXXXXX, LGUI(KC_Y), vscodeFormat, LGUI(KC_C), KC_VOLD, LGUI(KC_V), XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_DOWN, KC_PGDN, KC_END, XXXXXXX,
+                                 XXXXXXX, XXXXXXX, KC_SPC, KC_TAB, XXXXXXX,                       XXXXXXX, XXXXXXX, KC_TRNS, XXXXXXX, XXXXXXX
+    ),
+
 
 /*
  * Nav Layer: Navigation
@@ -251,8 +280,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_nav] = LAYOUT(
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, teamsMute, XXXXXXX,                                     XXXXXXX, KC_INS, KC_DEL, KC_PGUP, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, XXXXXXX,                                                     KC_PSCR, KC_LEFT, KC_UP, KC_RGHT, XXXXXXX, XXXXXXX,
-      XXXXXXX, XXXXXXX, vscodeFormat, LCTL(KC_C), KC_VOLD, LCTL(KC_V), XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_DOWN, KC_PGDN, KC_END, XXXXXXX,
+      XXXXXXX, LCTL(KC_A), XXXXXXX, LCTL(KC_S), KC_VOLU, XXXXXXX,                                                     KC_PSCR, KC_LEFT, KC_UP, KC_RGHT, XXXXXXX, XXXXXXX,
+      XXXXXXX, LCTL(KC_Y), vscodeFormat, LCTL(KC_C), KC_VOLD, LCTL(KC_V), XXXXXXX, XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, KC_HOME, KC_DOWN, KC_PGDN, KC_END, XXXXXXX,
                                  XXXXXXX, XXXXXXX, KC_SPC, KC_TAB, XXXXXXX,                       XXXXXXX, XXXXXXX, KC_TRNS, XXXXXXX, XXXXXXX
     ),
 
