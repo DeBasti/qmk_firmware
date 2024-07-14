@@ -234,7 +234,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_symmac] = LAYOUT(
-        XXXXXXX, RALT(KC_E), RALT(KC_8), RALT(KC_9), LSFT(KC_8), LSFT(KC_9),                                                 RALT(KC_5), RALT(KC_6), RALT(KC_N), RALT(KC_RBRC), XXXXXXX, XXXXXXX,
+        XXXXXXX, RALT(KC_E), RALT(KC_8), RALT(KC_9), LSFT(KC_8), LSFT(KC_9),                                                 RALT(KC_5), RALT(KC_6), LSFT(KC_RBRC), RALT(KC_N), XXXXXXX, XXXXXXX,
         XXXXXXX, KC_GRAVE, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), RALT(LSFT(KC_N)), XXXXXXX,
         XXXXXXX, LSFT(KC_COMMA), LSFT(KC_5), RALT(KC_7), LSFT(KC_SLASH), RALT(KC_L), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,LSFT(KC_1), LSFT(KC_EQUAL), KC_NUHS, LSFT(KC_6), RALT(LSFT(KC_B)), XXXXXXX,
                                                     XXXXXXX, XXXXXXX, XXXXXXX, RALT(LSFT(KC_7)), XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
