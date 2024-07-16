@@ -43,17 +43,20 @@ enum custom_keycodes {
 enum combos {
   C_BSPC,
   QW_ESC,
-  JL_MAC
+  JL_MAC,
+  PB_MAC
 };
 
 const uint16_t PROGMEM c_combo[] = {KC_H, KC_COMM, COMBO_END};
 const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
 const uint16_t PROGMEM jl_combo[] = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM pb_combo[] = {KC_P, KC_B, COMBO_END};
 
 combo_t key_combos[] = {
   [C_BSPC] = COMBO(c_combo, KC_BSPC),
   [QW_ESC] = COMBO(qw_combo, KC_ESC),
-  [JL_MAC] = COMBO(jl_combo, DF(1))
+  [JL_MAC] = COMBO(jl_combo, DF(1)),
+  [PB_MAC] = COMBO(pb_combo, DF(0))
 };
 
 
