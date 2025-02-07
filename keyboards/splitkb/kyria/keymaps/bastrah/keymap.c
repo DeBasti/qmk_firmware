@@ -236,14 +236,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
+ // liatris handelt mache keys seltsam und anders als elite_pi
  // see: https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_german_mac_iso.hRALT(LSFT(KC_B))
  // aber: <> taste & ^° Taste sind bei MacOS German Keyboard vertauscht -> ^ = < & ° = >
+
+
     [_symmac] = LAYOUT(
         XXXXXXX, RALT(KC_E), RALT(KC_8), RALT(KC_9), LSFT(KC_8), LSFT(KC_9),                                                 RALT(KC_5), RALT(KC_6), LSFT(KC_RBRC), RALT(KC_N), XXXXXXX, XXXXXXX,
-        XXXXXXX, KC_GRAVE, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), LSFT(KC_GRV), XXXXXXX,
+        XXXXXXX, KC_NUBS, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), LSFT(KC_GRV), XXXXXXX,
         XXXXXXX, LSFT(KC_COMMA), LSFT(KC_5), RALT(KC_7), LSFT(KC_SLASH), RALT(KC_L), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,LSFT(KC_1), LSFT(KC_EQUAL), KC_NUHS, LSFT(KC_6), KC_GRV, XXXXXXX,
                                                     XXXXXXX, XXXXXXX, XXXXXXX, RALT(LSFT(KC_7)), XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
     ),
+
+
+
+// elite pi handles some macOS keys (^,>,<) different than liatris
+// uncomment to build for elite_pi and comment out above block
+/*
+    [_symmac] = LAYOUT(
+        XXXXXXX, RALT(KC_E), RALT(KC_8), RALT(KC_9), LSFT(KC_8), LSFT(KC_9),                                                 RALT(KC_5), RALT(KC_6), LSFT(KC_RBRC), RALT(KC_N), XXXXXXX, XXXXXXX,
+        XXXXXXX, KC_GRAVE, KC_RBRC, LSFT(KC_0), KC_SLASH, LSFT(KC_4),                                                        LSFT(KC_NUHS), LSFT(KC_2), LSFT(KC_7), LSFT(KC_DOT), LSFT(KC_NUBS), XXXXXXX,
+        XXXXXXX, LSFT(KC_COMMA), LSFT(KC_5), RALT(KC_7), LSFT(KC_SLASH), RALT(KC_L), XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,LSFT(KC_1), LSFT(KC_EQUAL), KC_NUHS, LSFT(KC_6), KC_NUBS, XXXXXXX,
+                                                    XXXXXXX, XXXXXXX, XXXXXXX, RALT(LSFT(KC_7)), XXXXXXX,          XXXXXXX, KC_ENT, KC_TRNS, XXXXXXX, XXXXXXX
+    ),
+*/
+
 
 /*
  * Nav Layer: Navigation
